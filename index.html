@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000000;
+        }
+
+        .container {
+            width: 50%;
+            margin: 30px auto;
+            background-color: #369bff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            height: fit-content;
+        }
+
+        h2 {
+            background-color: #000dbc;
+            color: #fff;
+            padding: 10px;
+            border-radius: 4px;
+            text-align: center;
+            margin: 0;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background-color: #ffebcd;
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input, select, button {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #000dbc;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #155cb0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background-color: #000dbc;
+            color: #fff;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+        td{
+            background-color: #ffebcd;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .delete-btn {
+            color: #000dbc;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Add a new transaction:</h2>
+        <form id="transaction-form">
+            <label for="type">Type:</label>
+            <select id="type" required>
+                <option value="">Choose one</option>
+                <option value="Income">Income</option>
+                <option value="Expense">Expense</option>
+            </select>
+            <label for="name">Name:</label>
+            <input type="text" id="name" required>
+            <label for="amount">Amount:</label>
+            <input type="number" id="amount" required>
+            <button type="submit">Add to transactions</button>
+        </form>
+        <table id="transactions-table">
+            <thead>
+                <tr>
+                    <th id="colorBg">Type</th>
+                    <th id="colorBg">Name</th>
+                    <th id="colorBg">Amount</th>
+                    <th id="colorBg">Options</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <script>
+        document.getElementById('transaction-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const type = document.getElementById('type').value;
+            const name = document.getElementById('name').value;
+            const amount = document.getElementById('amount').value;
+
+            if (type && name && amount) {
+                addTransaction(type, name, amount);
+                document.getElementById('transaction-form').reset();
+            }
+        });
+
+        function addTransaction(type, name, amount) {
+            const tbody = document.querySelector('#transactions-table tbody');
+            const tr = document.createElement('tr');
+
+            tr.innerHTML = `
+                <td>${type}</td>
+                <td>${name}</td>
+                <td>Rs.${amount}</td>
+                <td><span class="delete-btn">Delete</span></td>
+            `;
+
+            tr.querySelector('.delete-btn').addEventListener('click', function () {
+                tr.remove();
+            });
+
+            tbody.appendChild(tr);
+        }
+    </script>
+</body>
+</html>
